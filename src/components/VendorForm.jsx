@@ -34,7 +34,6 @@ const VendorForm = () => {
   return (
     <div className="container">
       <h2>Add Vendor</h2>
-      {message && <p>{message}</p>}
       <form onSubmit={handleSubmit}>
         <label>Vendor Name</label>
         <input

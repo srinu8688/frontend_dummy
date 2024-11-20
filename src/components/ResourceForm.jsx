@@ -18,17 +18,16 @@ const ResourceForm = () => {
           throw new Error('Failed to fetch vendors');
         }
         const data = await response.json();
-        console.log(data)
-        setVendors(data.vendor|| []);
+        console.log(data);
+
+        setVendors(data || []); 
       } catch (error) {
-        console.error('Failed to fetch vendors');
+        console.error('Failed to fetch vendors', error);
+        setMessage('Error fetching vendors. Please try again later.');
       }
     };
     fetchVendors();
   }, []);
-  useEffect(() => {
-    console.log('Vendors State:', vendors);
-  }, [vendors]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,30 +36,32 @@ const ResourceForm = () => {
     formData.append('fullName', fullName);
     formData.append('resume', resume);
     formData.append('vendor', vendor);
-    formData.append('technology', technology.join(','));
+    technology.forEach((tech) => formData.append('technology[]', tech));
 
     try {
       const response = await fetch(`${API_URL}/resources/add`, {
         method: 'POST',
         body: formData,
       });
-
+    
       if (!response.ok) {
-        throw new Error('Failed to add resource');
+        const errorText = await response.text();
+        throw new Error(`Failed to add resource: ${errorText}`);
       }
-
+    
       setMessage('Resource added successfully!');
+      alert("Resource details added successfully")
       setFullName('');
-      setResume(null);
-      setVendor('');
-      setTechnology([]);
+    setResume(null);
+    setVendor('');
+    setTechnology([]);
     } catch (error) {
-        alert("Registered Succesfully")
-      setMessage('Added Successfully');
+      console.error('Error:', error.message);
+      setMessage('Internal Server Error: ' + error.message);
     }
   };
 
-  const techOptions = ['Reactjs', 'Nodejs', 'Javascript', 'Python'];
+  const techOptions = ['Reactjs', 'Nodejs', 'Php', 'Javascript'];
 
   return (
     <div className="container">
@@ -81,25 +82,17 @@ const ResourceForm = () => {
         />
         <label>Vendor</label>
         <select
-  value={vendor}
-  onChange={(e) => setVendor(e.target.value)}
-  required
->
-  <option value="">Select Vendor</option>
-  {vendors.length > 0 ? (
-  vendors.map((v) => (
-    <option key={v._id} value={v._id}>
-      {v.name}
-    </option>
-  ))
-) : (
-  <div>
-    <option >srinu</option>
-    <option >siva</option>
-  </div>
-)}
-
-</select>
+          value={vendor}
+          onChange={(e) => setVendor(e.target.value)}
+          required
+        >
+          <option value="">Select Vendor</option>
+          {vendors.map((vendorObj) => (
+            <option key={vendorObj._id} value={vendorObj.name}>
+              {vendorObj.name}
+            </option>
+          ))}
+        </select>
         <label>Technology</label>
         <div className="checkbox-group">
           {techOptions.map((tech) => (

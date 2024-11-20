@@ -1,12 +1,11 @@
-/* General Styles */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
   }
-  
-  /* Container */
+
   .container {
     max-width: 600px;
     margin: 30px auto;
@@ -15,15 +14,14 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
   }
-  
-  /* Header */
+
   h2 {
     text-align: center;
     color: #333;
     margin-bottom: 20px;
   }
   
-  /* Form Styles */
+
   form {
     display: flex;
     flex-direction: column;
@@ -59,8 +57,7 @@ body {
   button:hover {
     background-color: #0056b3;
   }
-  
-  /* Checkbox Styles */
+ 
   .checkbox-group {
     display: flex;
     flex-wrap: wrap;
@@ -72,7 +69,7 @@ body {
     align-items: center;
     gap: 5px;
   }
-  /* Table Styles */
+
 .resource-table {
     width: 100%;
     border-collapse: collapse;
